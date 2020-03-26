@@ -1,32 +1,86 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { random, range } from 'lodash-es';
+import { merge, Observable, Subject } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-root',
-  template: `
-    <!--The content below is only a placeholder and can be replaced.-->
-    <div style="text-align:center" class="content">
-      <h1>
-        Welcome to {{title}}!
-      </h1>
-      <span style="display: block">{{ title }} app is running!</span>
-      <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-    </div>
-    <h2>Here are some links to help you start: </h2>
-    <ul>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-      </li>
-    </ul>
-    
-  `,
-  styles: []
+  selector: 'nb-root',
+  template: ` <form [formGroup]="formGroup">
+      <label for="max-choice">Max number:</label>
+      <select id="max-choice" formControlName="max">
+        <option [ngValue]="choice" *ngFor="let choice of maxChoices">{{ choice }}</option>
+      </select>
+      <label for="bond-count-choice">Bonds:</label>
+      <select id="bond-count-choice" formControlName="bonds">
+        <option [ngValue]="choice" *ngFor="let choice of bondCountChoices">{{ choice }}</option>
+      </select>
+      <button type="button" (click)="refresh()">Another!</button>
+    </form>
+    <pre>{{ bonds$ | async | json }}</pre>`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
-  title = 'number-bonds';
+export class AppComponent implements OnInit {
+  readonly maxChoices = range(10, 110, 10);
+  readonly bondCountChoices = range(2, 6);
+  readonly formGroup = this.formBuilder.group({
+    max: [20, [Validators.required]],
+    bonds: [2, [Validators.required]],
+  });
+
+  private readonly refreshSubject = new Subject<NumberBonds>();
+
+  bonds$: Observable<NumberBonds>;
+
+  constructor(private readonly formBuilder: FormBuilder) {}
+
+  ngOnInit(): void {
+    this.bonds$ = merge(
+      this.formGroup.valueChanges.pipe(startWith(this.formGroup.value)),
+      this.refreshSubject,
+    ).pipe(
+      map(({ max, bonds }) => {
+        return makeBonds(bonds, max);
+      }),
+    );
+  }
+
+  refresh(): void {
+    this.refreshSubject.next(this.formGroup.value);
+  }
+}
+
+interface NumberBondPart {
+  value: number;
+  isMasked: boolean;
+}
+
+interface NumberBonds {
+  root: NumberBondPart;
+  bonds: readonly NumberBondPart[];
+}
+
+function makeBonds(bondCount: number, maxNumber: number): NumberBonds {
+  const rootNumber = random(bondCount * (bondCount + 1), maxNumber);
+
+  const bondNumbers = [];
+  let runningTotal = 0;
+  for (let i = 0; i < bondCount - 1; i += 1) {
+    const max = rootNumber - runningTotal - (bondCount - 1) + i;
+    console.log(max);
+    const bondNumber = random(1, max);
+    bondNumbers.push(bondNumber);
+    runningTotal += bondNumber;
+  }
+  bondNumbers.push(rootNumber - runningTotal);
+  const hiddenPosition = random(0, bondCount);
+  return {
+    root: { value: rootNumber, isMasked: hiddenPosition === bondCount },
+    bonds: bondNumbers.map((bondNumber, index) => {
+      return {
+        value: bondNumber,
+        isMasked: index === hiddenPosition,
+      };
+    }),
+  };
 }
