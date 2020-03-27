@@ -1,1 +1,54 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'material-color';
+
+$font-stack: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif,
+  Apple Color Emoji, Segoe UI Emoji;
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: material-color(blue-grey, 800);
+  color: #fff;
+  font-family: $font-stack;
+  font-size: 10vmin;
+}
+
+input,
+select {
+  font-size: 10vmin;
+  font-family: $font-stack;
+}
+
+input[type='number'] {
+  background: material-color(blue-grey, 900);
+  height: 2em;
+  width: 2em;
+  appearance: none;
+  border-radius: 50%;
+  text-align: center;
+  border: 0.1em solid material-color(blue-grey, 100);
+  color: material-color(blue-grey, 100);
+  padding: 0;
+  transition: background-color 0.15s ease-in-out;
+
+  &:focus {
+    outline: none;
+
+    &:not([readOnly]) {
+      background: material-color(blue, 800);
+    }
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}

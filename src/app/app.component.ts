@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { random, range } from 'lodash-es';
 import { merge, Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { NumberBonds } from 'src/app/models';
 
 @Component({
   selector: 'nb-root',
@@ -17,7 +18,7 @@ import { map, startWith } from 'rxjs/operators';
       </select>
       <button type="button" (click)="refresh()">Another!</button>
     </form>
-    <pre>{{ bonds$ | async | json }}</pre>`,
+    <nb-bonds [bonds]="bonds$ | async" (correct)="celebrateCorrect()"></nb-bonds>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
@@ -48,16 +49,10 @@ export class AppComponent implements OnInit {
   refresh(): void {
     this.refreshSubject.next(this.formGroup.value);
   }
-}
 
-interface NumberBondPart {
-  value: number;
-  isMasked: boolean;
-}
-
-interface NumberBonds {
-  root: NumberBondPart;
-  bonds: readonly NumberBondPart[];
+  celebrateCorrect(): void {
+    console.log('Correct!');
+  }
 }
 
 function makeBonds(bondCount: number, maxNumber: number): NumberBonds {
@@ -67,7 +62,6 @@ function makeBonds(bondCount: number, maxNumber: number): NumberBonds {
   let runningTotal = 0;
   for (let i = 0; i < bondCount - 1; i += 1) {
     const max = rootNumber - runningTotal - (bondCount - 1) + i;
-    console.log(max);
     const bondNumber = random(1, max);
     bondNumbers.push(bondNumber);
     runningTotal += bondNumber;
