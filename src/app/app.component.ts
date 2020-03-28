@@ -4,6 +4,7 @@ import { random, range } from 'lodash-es';
 import { merge, Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { NumberBonds } from 'src/app/models';
+import { SwUpdateService } from 'src/app/sw-update.service';
 
 @Component({
   selector: 'nb-root',
@@ -33,7 +34,10 @@ export class AppComponent implements OnInit {
 
   bonds$: Observable<NumberBonds>;
 
-  constructor(private readonly formBuilder: FormBuilder) {}
+  constructor(
+    private readonly formBuilder: FormBuilder,
+    private readonly swUpdateService: SwUpdateService,
+  ) {}
 
   ngOnInit(): void {
     this.bonds$ = merge(
@@ -44,6 +48,10 @@ export class AppComponent implements OnInit {
         return makeBonds(bonds, max);
       }),
     );
+
+    this.swUpdateService.updateActivated.subscribe(() => {
+      console.log('activated update!');
+    });
   }
 
   refresh(): void {
@@ -51,7 +59,9 @@ export class AppComponent implements OnInit {
   }
 
   celebrateCorrect(): void {
-    console.log('Correct!');
+    setTimeout(() => {
+      this.refresh();
+    }, 4000);
   }
 }
 

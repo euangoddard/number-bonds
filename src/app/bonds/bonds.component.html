@@ -1,0 +1,27 @@
+<ng-container *ngFor="let bond of bonds.bonds">
+  <input
+    type="number"
+    class="number"
+    [readOnly]="!bond.isMasked"
+    [value]="bond.isMasked ? null : bond.value"
+    (input)="checkBond(bond, $event)"
+    [nbAutoFocus]="bond.isMasked"
+    [disabled]="isCorrect"
+    min="1"
+    max="100"
+    step="1"
+  />
+  <hr class="spoke" />
+</ng-container>
+<input
+  type="number"
+  class="number"
+  [readOnly]="!bonds.root.isMasked"
+  [value]="bonds.root.isMasked ? null : bonds.root.value"
+  (input)="checkBond(bonds.root, $event)"
+  [nbAutoFocus]="bonds.root.isMasked"
+  [disabled]="isCorrect"
+  min="1"
+  max="100"
+  step="1"
+/>

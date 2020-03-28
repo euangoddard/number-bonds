@@ -1,4 +1,20 @@
+@use "sass:math";
 @import 'material-color';
+
+@mixin build-bonds($count, $offset, $delta) {
+  $r: 150%;
+  @for $i from 1 through $count {
+    $theta: $offset + $delta * ($i - 1);
+
+    .number:nth-of-type(#{$i}) {
+      transform: translate($r * math.cos($theta), $r * math.sin($theta));
+    }
+
+    .spoke:nth-of-type(#{$i}) {
+      transform: rotateZ($theta);
+    }
+  }
+}
 
 $font-stack: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif,
   Apple Color Emoji, Segoe UI Emoji;
@@ -12,12 +28,18 @@ body {
   background: material-color(blue-grey, 800);
   color: #fff;
   font-family: $font-stack;
-  font-size: 10vmin;
+  font-size: 5vmin;
+  padding: 0;
+  margin: 0;
 }
 
-input,
-select {
+input {
   font-size: 10vmin;
+  font-family: $font-stack;
+}
+select,
+button {
+  font-size: inherit;
   font-family: $font-stack;
 }
 
@@ -28,10 +50,14 @@ input[type='number'] {
   appearance: none;
   border-radius: 50%;
   text-align: center;
-  border: 0.1em solid material-color(blue-grey, 100);
+  border: 1vmin solid material-color(blue-grey, 100);
   color: material-color(blue-grey, 100);
   padding: 0;
   transition: background-color 0.15s ease-in-out;
+  margin: {
+    top: -1em;
+    left: -1em;
+  }
 
   &:focus {
     outline: none;
@@ -39,6 +65,56 @@ input[type='number'] {
     &:not([readOnly]) {
       background: material-color(blue, 800);
     }
+  }
+
+  .correct &:not([readOnly]) {
+    background: material-color(green, 800);
+  }
+}
+
+nb-root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+nb-bonds {
+  display: block;
+  flex: 1 0 auto;
+  position: relative;
+
+  .number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+  }
+
+  .spoke {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: 0% 50%;
+    width: 30%;
+    border: 0;
+    border-top: 1vmin solid material-color(blue-grey, 100);
+    margin: 0;
+  }
+
+  &.two-bonds {
+    @include build-bonds(2, 225deg, 90deg);
+  }
+
+  &.three-bonds {
+    @include build-bonds(3, 210deg, 60deg);
+  }
+
+  &.four-bonds {
+    @include build-bonds(4, 180deg, 60deg);
+  }
+
+  &.five-bonds {
+    @include build-bonds(5, 270deg, 72deg);
   }
 }
 
