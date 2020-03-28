@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "deploy": "ng deploy --cname=nb.euans.space",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -34,6 +35,7 @@
     "@types/canvas-confetti": "^1.0.0",
     "@types/lodash-es": "^4.17.3",
     "@types/node": "^12.11.1",
+    "angular-cli-ghpages": "^0.6.2",
     "prettier": "^2.0.2",
     "ts-node": "~8.3.0",
     "tslint": "~5.18.0",

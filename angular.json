@@ -106,6 +106,10 @@
           "options": {
             "browserTarget": "number-bonds:build"
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
     }
