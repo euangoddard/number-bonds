@@ -116,6 +116,10 @@ nb-bonds {
   &.five-bonds {
     @include build-bonds(5, 270deg, 72deg);
   }
+
+  &.six-bonds {
+    @include build-bonds(6, 0, 60deg);
+  }
 }
 
 input::-webkit-outer-spin-button,

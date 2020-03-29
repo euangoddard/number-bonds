@@ -75,4 +75,5 @@ const CLASS_MAP = new Map<number, string>([
   [3, 'three-bonds'],
   [4, 'four-bonds'],
   [5, 'five-bonds'],
+  [6, 'six-bonds'],
 ]);

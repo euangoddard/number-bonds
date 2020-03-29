@@ -23,8 +23,8 @@ import { SwUpdateService } from 'src/app/sw-update.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  readonly maxChoices = range(10, 110, 10);
-  readonly bondCountChoices = range(2, 6);
+  readonly maxChoices = range(20, 210, 20);
+  readonly bondCountChoices = range(2, 7);
   readonly formGroup = this.formBuilder.group({
     max: [20, [Validators.required]],
     bonds: [2, [Validators.required]],
