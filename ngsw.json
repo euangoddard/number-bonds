@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1585509517671,
+  "timestamp": 1586011168886,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -10,14 +10,14 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main-es2015.3b1f448563e82f357c84.js",
-        "/main-es5.3b1f448563e82f357c84.js",
+        "/main-es2015.68c2a1e4ba7f9e1ddfe9.js",
+        "/main-es5.68c2a1e4ba7f9e1ddfe9.js",
         "/manifest.webmanifest",
         "/polyfills-es2015.bbb42ff2e1c488ff52d5.js",
         "/polyfills-es5.0e4e1968447fab48e788.js",
         "/runtime-es2015.c9afb3256f2870e161de.js",
         "/runtime-es5.c9afb3256f2870e161de.js",
-        "/styles.1a556c10be70487ab0ce.css"
+        "/styles.8d1dbd9099e2886077e8.css"
       ],
       "patterns": []
     },
@@ -32,7 +32,9 @@
         "/assets/icons/favicon-16x16.png",
         "/assets/icons/favicon-32x32.png"
       ],
-      "patterns": []
+      "patterns": [
+        "https:\\/\\/fonts\\.googleapis\\.com\\/.*"
+      ]
     }
   ],
   "dataGroups": [],
@@ -43,15 +45,15 @@
     "/assets/icons/favicon-16x16.png": "9ba46afabdee0d69eeb65db1adc3c1191e0aa39d",
     "/assets/icons/favicon-32x32.png": "32510db694065f9ceb04edbe48c6672ef017da67",
     "/favicon.ico": "31cffb059a8988489a5d2423e280e9cf989c1d6e",
-    "/index.html": "857415e4ff57a6e519a30f2361232a60dd5e646c",
-    "/main-es2015.3b1f448563e82f357c84.js": "9f2d01921c6263aa961915e2b5067dc4584591aa",
-    "/main-es5.3b1f448563e82f357c84.js": "758b0784ace9a979862c1159b9a2ff1518afd824",
+    "/index.html": "21c647c49d67cefd10e3e5cec171b88b499955b9",
+    "/main-es2015.68c2a1e4ba7f9e1ddfe9.js": "1c6138b400342450783063a526ee18a5d91da289",
+    "/main-es5.68c2a1e4ba7f9e1ddfe9.js": "42299667ae0440e5851d2b2b6a6d6e891fdbf3f8",
     "/manifest.webmanifest": "71abd068b87651b7319f13f90f1d1564876cb8ad",
     "/polyfills-es2015.bbb42ff2e1c488ff52d5.js": "72ad4ccc0a3916ae4598199447cdeadd6d380570",
     "/polyfills-es5.0e4e1968447fab48e788.js": "e51a1de4f016cd689dbdbef51043dec9518c4111",
     "/runtime-es2015.c9afb3256f2870e161de.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
     "/runtime-es5.c9afb3256f2870e161de.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
-    "/styles.1a556c10be70487ab0ce.css": "9d697663e3a5253a5ab1d3888ce68b7e8f9283c8"
+    "/styles.8d1dbd9099e2886077e8.css": "9b07d70637ad04e06b29c57a6c05149db871bac1"
   },
   "navigationUrls": [
     {
