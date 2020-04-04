@@ -14,12 +14,13 @@ import {
 import { take } from 'rxjs/operators';
 import { AutoFocusDirective } from 'src/app/bonds/auto-focus.directive';
 import { ConfettiService } from 'src/app/confetti.service';
-import { NumberBondPart, NumberBonds } from 'src/app/models';
+import { NumberBonds } from 'src/app/models';
 
 @Component({
   selector: 'nb-bonds',
   templateUrl: './bonds.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./bonds.component.scss'],
 })
 export class BondsComponent implements OnChanges {
   @Input() bonds: NumberBonds;
@@ -32,11 +33,13 @@ export class BondsComponent implements OnChanges {
   @HostBinding('class')
   get hostClass(): string {
     if (this.bonds) {
-      return CLASS_MAP.get(this.bonds.bonds.length) || '';
+      return `has-${this.bonds.bonds.length}-bonds`;
     } else {
       return '';
     }
   }
+
+  answer: number | null = null;
 
   constructor(private readonly confetti: ConfettiService, private zone: NgZone) {}
 
@@ -44,6 +47,7 @@ export class BondsComponent implements OnChanges {
     const bondsChange = changes['bonds'];
     if (bondsChange && bondsChange.currentValue) {
       this.isCorrect = false;
+      this.answer = null;
       if (!bondsChange.firstChange) {
         this.zone.onStable.pipe(take(1)).subscribe(() => {
           this.focusDirectives.forEach((directive) => {
@@ -54,26 +58,29 @@ export class BondsComponent implements OnChanges {
     }
   }
 
-  checkBond(bond: NumberBondPart, $event: Event) {
-    if (!bond.isMasked) {
+  setAnswer(event: Event): void {
+    const targetElement = event.target as HTMLInputElement;
+    const answer = targetElement.valueAsNumber;
+    this.answer = isNaN(answer) ? null : answer;
+  }
+
+  checkAnswer(buttonElement: HTMLButtonElement): void {
+    if (this.answer === null) {
       return;
     }
 
-    const targetElement = $event.target as HTMLInputElement;
-    if (bond.value === targetElement.valueAsNumber) {
+    const activeBond = [this.bonds.root, ...this.bonds.bonds].find((b) => b.isMasked);
+
+    if (!activeBond) {
+      throw new Error('No active bond!');
+    }
+
+    if (activeBond.value === this.answer) {
       this.isCorrect = true;
       this.correct.emit();
-      this.confetti.explode(targetElement);
+      this.confetti.explode(buttonElement);
     } else {
       this.isCorrect = false;
     }
   }
 }
-
-const CLASS_MAP = new Map<number, string>([
-  [2, 'two-bonds'],
-  [3, 'three-bonds'],
-  [4, 'four-bonds'],
-  [5, 'five-bonds'],
-  [6, 'six-bonds'],
-]);

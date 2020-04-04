@@ -1,0 +1,25 @@
+@import 'material-color';
+
+:host {
+  display: block;
+}
+
+header {
+  $curve-height: 2rem;
+  background: material-color(blue-grey, 900);
+  position: relative;
+
+  padding: 1rem;
+
+  &::after {
+    position: absolute;
+    top: calc(100% - #{$curve-height/2});
+    left: 0;
+    background: material-color(blue-grey, 900);
+    content: '';
+    display: block;
+    width: 100%;
+    height: $curve-height;
+    border-radius: 50%;
+  }
+}

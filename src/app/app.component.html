@@ -1,0 +1,2 @@
+<nb-controls (bonds)="updateBonds($event)"></nb-controls>
+<nb-bonds *ngIf="bonds$ | async as bonds" [bonds]="bonds" (correct)="celebrateCorrect()"></nb-bonds>

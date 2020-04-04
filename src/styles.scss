@@ -1,23 +1,13 @@
-@use "sass:math";
-@import 'material-color';
+@import 'styles/material-color';
 
-@mixin build-bonds($count, $offset, $delta) {
-  $r: 150%;
-  @for $i from 1 through $count {
-    $theta: $offset + $delta * ($i - 1);
+$color-mint: material-color(green, A200);
 
-    .number:nth-of-type(#{$i}) {
-      transform: translate($r * math.cos($theta), $r * math.sin($theta));
-    }
-
-    .spoke:nth-of-type(#{$i}) {
-      transform: rotateZ($theta);
-    }
-  }
-}
-
-$font-stack: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif,
+$font-stack: 'Roboto', -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif,
   Apple Color Emoji, Segoe UI Emoji;
+
+* {
+  box-sizing: border-box;
+}
 
 html,
 body {
@@ -28,107 +18,116 @@ body {
   background: material-color(blue-grey, 800);
   color: #fff;
   font-family: $font-stack;
-  font-size: 5vmin;
+  font-size: 16px;
   padding: 0;
   margin: 0;
 }
 
-input {
-  font-size: 10vmin;
-  font-family: $font-stack;
-}
-select,
-button {
+%control {
+  appearance: none;
+
   font-size: inherit;
   font-family: $font-stack;
+  font-weight: 500;
+  text-transform: uppercase;
+
+  color: rgba(black, 0.87);
+
+  border: none;
+  outline: none;
+
+  padding: 0.5rem 1rem;
+  min-width: 6rem;
 }
 
-input[type='number'] {
-  background: material-color(blue-grey, 900);
-  height: 2em;
-  width: 2em;
-  appearance: none;
-  border-radius: 50%;
-  text-align: center;
-  border: 1vmin solid material-color(blue-grey, 100);
-  color: material-color(blue-grey, 100);
+form {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+fieldset {
+  border: none;
+  margin: 0 1rem 0 0;
   padding: 0;
-  transition: background-color 0.15s ease-in-out;
-  margin: {
-    top: -1em;
-    left: -1em;
-  }
-
-  &:focus {
-    outline: none;
-
-    &:not([readOnly]) {
-      background: material-color(blue, 800);
-    }
-  }
-
-  .correct &:not([readOnly]) {
-    background: material-color(green, 800);
-  }
-}
-
-nb-root {
-  height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
-nb-bonds {
+label {
   display: block;
-  flex: 1 0 auto;
+  margin-bottom: 0.25rem;
+
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 0.875rem;
+
+  color: rgba(255, 255, 255, 0.73);
+}
+
+.select {
+  min-width: 6rem;
+  background: #fff;
+
+  border-radius: 0.25rem;
+  border: solid 1px material-color(blue-grey, 100);
+
   position: relative;
 
-  .number {
+  .caret {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 2;
-  }
+    height: 1rem;
+    line-height: 1rem;
+    text-align: center;
+    color: rgba(black, 0.87);
+    bottom: 0.5rem;
+    right: 0.5rem;
+    font-size: 0.875rem;
+    user-select: none;
 
-  .spoke {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform-origin: 0% 50%;
-    width: 30vmin;
-    border: 0;
-    border-top: 1vmin solid material-color(blue-grey, 100);
-    margin: 0;
-  }
-
-  &.two-bonds {
-    @include build-bonds(2, 225deg, 90deg);
-  }
-
-  &.three-bonds {
-    @include build-bonds(3, 210deg, 60deg);
-  }
-
-  &.four-bonds {
-    @include build-bonds(4, 180deg, 60deg);
-  }
-
-  &.five-bonds {
-    @include build-bonds(5, 270deg, 72deg);
-  }
-
-  &.six-bonds {
-    @include build-bonds(6, 0, 60deg);
+    z-index: 1;
   }
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+select {
+  @extend %control;
+
+  width: 100%;
+  background: transparent;
+  position: relative;
+  z-index: 2;
+
+  &:focus {
+    box-shadow: 0 0 0 2px material-color(green, A200) inset;
+  }
 }
 
-/* Firefox */
-input[type='number'] {
-  -moz-appearance: textfield;
+button {
+  @extend %control;
+
+  background: $color-mint;
+
+  border-radius: 0.75rem;
+  border: 3px solid material-color(green, A400);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+
+  transition: all 0.25s ease-in-out;
+
+  padding: {
+    top: 5px;
+    bottom: 5px;
+  }
+
+  &:hover,
+  &:focus {
+    border-color: material-color(green, A700);
+  }
+
+  &:disabled {
+    background-color: material-color(blue-grey, 600);
+    border-color: material-color(blue-grey, 600);
+    color: material-color(blue-grey, 800);
+    box-shadow: none;
+  }
 }

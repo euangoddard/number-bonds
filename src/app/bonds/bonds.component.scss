@@ -1,0 +1,130 @@
+@use 'sass:math';
+@import 'material-color';
+
+@mixin build-bonds($count, $offset, $delta) {
+  $r: 8rem;
+  @for $i from 1 through $count {
+    $theta: $offset + $delta * ($i - 1);
+
+    .number:nth-of-type(#{$i}) {
+      transform: translate($r * math.cos($theta), $r * math.sin($theta));
+    }
+
+    .spoke:nth-of-type(#{$i}) {
+      transform: rotateZ($theta);
+    }
+  }
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  position: relative;
+  padding: 1rem;
+
+  &.has-2-bonds {
+    @include build-bonds(2, 225deg, 90deg);
+  }
+
+  &.has-3-bonds {
+    @include build-bonds(3, 210deg, 60deg);
+  }
+
+  &.has-4-bonds {
+    @include build-bonds(4, 180deg, 60deg);
+  }
+
+  &.has-5-bonds {
+    @include build-bonds(5, 270deg, 72deg);
+  }
+
+  &.has-6-bonds {
+    @include build-bonds(6, 0, 60deg);
+  }
+}
+
+.bonds {
+  flex: 1 0 auto;
+}
+
+.number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+}
+
+.spoke {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0 50%;
+  width: 8rem;
+  border: 0;
+  border-top: solid 1px material-color(blue-grey, 400);
+  margin: 0;
+}
+
+input {
+  font-size: 1.25rem;
+  font-weight: 500;
+  font-family: inherit;
+}
+
+input[type='number'] {
+  $size: 3.5rem;
+  background: material-color(blue-grey, 900);
+  height: $size;
+  width: $size;
+  appearance: none;
+  border-radius: 50%;
+  text-align: center;
+  border: solid 2px material-color(blue-grey, 400);
+  color: material-color(blue-grey, 100);
+  padding: 0;
+  transition: background-color 0.15s ease-in-out;
+  margin: {
+    top: -0.5 * $size;
+    left: -0.5 * $size;
+  }
+
+	&::placeholder {
+		color: material-color(teal, A400);
+	}
+
+	&:focus {
+		outline: none;
+	}
+
+	&:not([readOnly]) {
+		font-size: 1.5rem;
+		color: material-color(teal, A700);
+		box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.8);
+		border: solid 2px material-color(teal, A200);
+		background-color: #fff;
+	}
+
+	&.total {
+		$size: 4rem;
+		font-size: 1.5rem;
+		border: solid 4px material-color(green, A200);
+		width: $size;
+		height: $size;
+		margin: {
+			top: -0.5 * $size;
+			left: -0.5 * $size;
+		}
+	}
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}

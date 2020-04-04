@@ -7,9 +7,10 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { BondsComponent } from './bonds/bonds.component';
 import { AutoFocusDirective } from './bonds/auto-focus.directive';
+import { ControlsComponent } from './controls/controls.component';
 
 @NgModule({
-  declarations: [AppComponent, BondsComponent, AutoFocusDirective],
+  declarations: [AppComponent, BondsComponent, AutoFocusDirective, ControlsComponent],
   imports: [
     BrowserModule,
     ReactiveFormsModule,

@@ -1,0 +1,24 @@
+<header>
+  <form [formGroup]="formGroup" (submit)="emitChoices()">
+    <fieldset>
+      <label for="max-choice">Max number</label>
+      <div class="select">
+        <select id="max-choice" formControlName="max">
+          <option [ngValue]="choice" *ngFor="let choice of maxChoices">{{ choice }}</option>
+        </select>
+        <div class="caret">▼</div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <label for="bond-count-choice">Bonds</label>
+      <div class="select">
+        <select id="bond-count-choice" formControlName="bonds">
+          <option [ngValue]="choice" *ngFor="let choice of bondCountChoices">{{ choice }}</option>
+        </select>
+        <div class="caret">▼</div>
+      </div>
+    </fieldset>
+
+    <button type="submit">Go!</button>
+  </form>
+</header>
