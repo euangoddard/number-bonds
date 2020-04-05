@@ -139,14 +139,40 @@ input[type='number'] {
 	padding: 1rem;
 	box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.8);
 
+	button {
+		box-shadow: none;
+	}
+
 	&.correct {
 		color: material-color(green, 800);
 		background-color: material-color(green, 300);
+
+		button {
+			border-color: material-color(green, A400);
+			background-color: material-color(green, A200);
+
+
+			&:hover,
+			&:focus {
+				border-color: material-color(green, A700);
+			}
+		}
 	}
 
 	&.incorrect {
 		color: material-color(red, 800);
 		background-color: material-color(red, 300);
+
+		button {
+			border-color: material-color(red, A400);
+			background-color: material-color(red, A200);
+			color: #fff;
+
+			&:hover,
+			&:focus {
+				border-color: material-color(red, A700);
+			}
+		}
 	}
 
 	h2 {
@@ -154,4 +180,11 @@ input[type='number'] {
 		font-weight: 500;
 		margin: 0 0 1rem;
 	}
+
+	.footer-body {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
 }

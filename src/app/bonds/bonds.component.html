@@ -48,5 +48,8 @@
     <ng-container *ngSwitchCase="State.Correct">That's right!</ng-container>
     <ng-container *ngSwitchCase="State.Incorrect">Oops. That's not quite right</ng-container>
   </h2>
-  <div [innerHTML]="bonds | answer"></div>
+  <div class="footer-body">
+    <div [innerHTML]="bonds | answer"></div>
+    <button type="button" (click)="done()">Next</button>
+  </div>
 </footer>

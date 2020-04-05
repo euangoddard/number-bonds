@@ -33,9 +33,7 @@ export class AppComponent implements OnInit {
   }
 
   fetchNewBonds(): void {
-    setTimeout(() => {
-      this.controlsComponent.emitChoices();
-    }, 4000);
+    this.controlsComponent.emitChoices();
   }
 
   updateBonds(bonds: NumberBonds): void {

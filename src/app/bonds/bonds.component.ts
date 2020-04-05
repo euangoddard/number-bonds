@@ -26,14 +26,18 @@ import { NumberBonds, QuestionState } from 'src/app/models';
     trigger('slideUp', [
       transition('void => *', [
         style({ transform: 'translateY(100%)' }),
-        animate('300ms ease-out'),
+        animate('250ms ease-out'),
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateY(0%)' }),
+        animate('250ms ease-in', style({ transform: 'translateY(100%)' })),
       ]),
     ]),
   ],
 })
 export class BondsComponent implements OnChanges {
   @Input() bonds: NumberBonds;
-  @Output() answered = new EventEmitter<QuestionState>();
+  @Output() next = new EventEmitter<QuestionState>();
 
   @ViewChildren(AutoFocusDirective) private focusDirectives: QueryList<AutoFocusDirective>;
 
@@ -91,6 +95,9 @@ export class BondsComponent implements OnChanges {
     } else {
       this.state = QuestionState.Incorrect;
     }
-    this.answered.emit(this.state);
+  }
+
+  done(): void {
+    this.next.next(this.state);
   }
 }

@@ -1,2 +1,2 @@
 <nb-controls (bonds)="updateBonds($event)"></nb-controls>
-<nb-bonds *ngIf="bonds$ | async as bonds" [bonds]="bonds" (answered)="fetchNewBonds()"></nb-bonds>
+<nb-bonds *ngIf="bonds$ | async as bonds" [bonds]="bonds" (next)="fetchNewBonds()"></nb-bonds>
