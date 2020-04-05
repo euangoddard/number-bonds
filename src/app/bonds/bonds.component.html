@@ -7,7 +7,7 @@
       [value]="bond.isMasked ? null : bond.value"
       (input)="setAnswer($event)"
       [nbAutoFocus]="bond.isMasked"
-      [disabled]="isCorrect"
+      [disabled]="state !== State.Waiting"
       placeholder="?"
       min="1"
       max="100"
@@ -22,13 +22,31 @@
     [value]="bonds.root.isMasked ? null : bonds.root.value"
     (input)="setAnswer($event)"
     [nbAutoFocus]="bonds.root.isMasked"
-    [disabled]="isCorrect"
+    [disabled]="state !== State.Waiting"
     placeholder="?"
     min="1"
     max="100"
     step="1"
   />
 </div>
-<button type="button" [disabled]="answer === null || isCorrect" #check (click)="checkAnswer(check)">
+<button
+  type="button"
+  [disabled]="answer === null || state !== State.Waiting"
+  #check
+  (click)="checkAnswer(check)"
+>
   Check
 </button>
+<footer
+  class="message"
+  @slideUp
+  *ngIf="state !== State.Waiting"
+  [class.correct]="state === State.Correct"
+  [class.incorrect]="state === State.Incorrect"
+>
+  <h2 [ngSwitch]="state">
+    <ng-container *ngSwitchCase="State.Correct">That's right!</ng-container>
+    <ng-container *ngSwitchCase="State.Incorrect">Oops. That's not quite right</ng-container>
+  </h2>
+  <div [innerHTML]="bonds | answer"></div>
+</footer>

@@ -46,6 +46,7 @@
 
 .bonds {
   flex: 1 0 auto;
+	position: relative;
 }
 
 .number {
@@ -127,4 +128,30 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type='number'] {
   -moz-appearance: textfield;
+}
+
+.message {
+	position: fixed;
+	width: 100%;
+	z-index: 4;
+	bottom: 0;
+	left: 0;
+	padding: 1rem;
+	box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.8);
+
+	&.correct {
+		color: material-color(green, 800);
+		background-color: material-color(green, 300);
+	}
+
+	&.incorrect {
+		color: material-color(red, 800);
+		background-color: material-color(red, 300);
+	}
+
+	h2 {
+		font-size: 1.5rem;
+		font-weight: 500;
+		margin: 0 0 1rem;
+	}
 }

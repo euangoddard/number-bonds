@@ -7,3 +7,9 @@ export interface NumberBonds {
   root: NumberBondPart;
   bonds: readonly NumberBondPart[];
 }
+
+export enum QuestionState {
+  Waiting,
+  Correct,
+  Incorrect,
+}

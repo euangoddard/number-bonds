@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,21 +15,27 @@ import {
 import { take } from 'rxjs/operators';
 import { AutoFocusDirective } from 'src/app/bonds/auto-focus.directive';
 import { ConfettiService } from 'src/app/confetti.service';
-import { NumberBonds } from 'src/app/models';
+import { NumberBonds, QuestionState } from 'src/app/models';
 
 @Component({
   selector: 'nb-bonds',
   templateUrl: './bonds.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./bonds.component.scss'],
+  animations: [
+    trigger('slideUp', [
+      transition('void => *', [
+        style({ transform: 'translateY(100%)' }),
+        animate('300ms ease-out'),
+      ]),
+    ]),
+  ],
 })
 export class BondsComponent implements OnChanges {
   @Input() bonds: NumberBonds;
-  @Output() correct = new EventEmitter<void>();
+  @Output() answered = new EventEmitter<QuestionState>();
 
   @ViewChildren(AutoFocusDirective) private focusDirectives: QueryList<AutoFocusDirective>;
-
-  @HostBinding('class.correct') isCorrect = false;
 
   @HostBinding('class')
   get hostClass(): string {
@@ -39,6 +46,9 @@ export class BondsComponent implements OnChanges {
     }
   }
 
+  readonly State = QuestionState;
+  state: QuestionState = QuestionState.Waiting;
+
   answer: number | null = null;
 
   constructor(private readonly confetti: ConfettiService, private zone: NgZone) {}
@@ -46,7 +56,7 @@ export class BondsComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const bondsChange = changes['bonds'];
     if (bondsChange && bondsChange.currentValue) {
-      this.isCorrect = false;
+      this.state = QuestionState.Waiting;
       this.answer = null;
       if (!bondsChange.firstChange) {
         this.zone.onStable.pipe(take(1)).subscribe(() => {
@@ -76,11 +86,11 @@ export class BondsComponent implements OnChanges {
     }
 
     if (activeBond.value === this.answer) {
-      this.isCorrect = true;
-      this.correct.emit();
+      this.state = QuestionState.Correct;
       this.confetti.explode(buttonElement);
     } else {
-      this.isCorrect = false;
+      this.state = QuestionState.Incorrect;
     }
+    this.answered.emit(this.state);
   }
 }

@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  celebrateCorrect(): void {
+  fetchNewBonds(): void {
     setTimeout(() => {
       this.controlsComponent.emitChoices();
     }, 4000);
