@@ -23,3 +23,15 @@ header {
     border-radius: 50%;
   }
 }
+
+.button--go {
+  color: material-color(green, A200);
+  background: transparent;
+  border: solid 2px material-color(green, A200);
+
+  &:hover,
+  &:focus {
+    color: material-color(green, A400);
+    border: solid 2px material-color(green, A400);
+  }
+}

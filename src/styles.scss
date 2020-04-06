@@ -1,7 +1,5 @@
 @import 'styles/material-color';
 
-$color-mint: material-color(green, A200);
-
 $font-stack: 'Roboto', -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif,
   Apple Color Emoji, Segoe UI Emoji;
 
@@ -15,7 +13,12 @@ body {
 }
 
 body {
-  background: material-color(blue-grey, 800);
+  background-color: material-color(blue-grey, 800);
+  background-image: url('/assets/backgrounds/moon.svg'),
+    url('/assets/backgrounds/star-cluster-1.svg'), url('/assets/backgrounds/star-cluster-2.svg'),
+    url('/assets/backgrounds/star-cluster-3.svg'), url('/assets/backgrounds/star-cluster-4.svg');
+  background-position: 70% 8%, 0 20%, right 30%, right 70%, 0 80%;
+  background-repeat: no-repeat;
   color: #fff;
   font-family: $font-stack;
   font-size: 16px;
@@ -106,28 +109,12 @@ select {
 button {
   @extend %control;
 
-  background: $color-mint;
-
-  border-radius: 0.75rem;
-  border: 3px solid material-color(green, A400);
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 0.5rem;
 
   transition: all 0.25s ease-in-out;
 
   padding: {
-    top: 5px;
-    bottom: 5px;
-  }
-
-  &:hover,
-  &:focus {
-    border-color: material-color(green, A700);
-  }
-
-  &:disabled {
-    background-color: material-color(blue-grey, 600);
-    border-color: material-color(blue-grey, 600);
-    color: material-color(blue-grey, 800);
-    box-shadow: none;
+    top: 6px;
+    bottom: 6px;
   }
 }

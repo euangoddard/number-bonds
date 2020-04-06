@@ -46,7 +46,7 @@
 
 .bonds {
   flex: 1 0 auto;
-	position: relative;
+  position: relative;
 }
 
 .number {
@@ -90,33 +90,45 @@ input[type='number'] {
     left: -0.5 * $size;
   }
 
-	&::placeholder {
-		color: material-color(teal, A400);
-	}
+  &::placeholder {
+    color: material-color(teal, A400);
+  }
 
-	&:focus {
-		outline: none;
-	}
+  &:focus {
+    outline: none;
+  }
 
-	&:not([readOnly]) {
-		font-size: 1.5rem;
-		color: material-color(teal, A700);
-		box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.8);
-		border: solid 2px material-color(teal, A200);
-		background-color: #fff;
-	}
+  &.total {
+    $size: 4rem;
+    font-size: 1.5rem;
+    border: solid 4px material-color(blue-grey, 400);
+    width: $size;
+    height: $size;
+    margin: {
+      top: -0.5 * $size;
+      left: -0.5 * $size;
+    }
+  }
 
-	&.total {
-		$size: 4rem;
-		font-size: 1.5rem;
-		border: solid 4px material-color(green, A200);
-		width: $size;
-		height: $size;
-		margin: {
-			top: -0.5 * $size;
-			left: -0.5 * $size;
-		}
-	}
+  &:not([readOnly]) {
+    font-size: 1.5rem;
+    color: rgba(black, 0.87);
+    box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.8);
+    border: solid 2px material-color(blue, A200);
+    background-color: #fff;
+
+    .answer-correct & {
+      border-color: material-color(teal, A200);
+    }
+
+    .answer-incorrect & {
+      border-color: material-color(red, A200);
+    }
+
+    &.total {
+      border-width: 4px;
+    }
+  }
 }
 
 input::-webkit-outer-spin-button,
@@ -130,61 +142,97 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
+.button--check {
+  background: material-color(green, A200);
+  border: 2px solid material-color(green, A400);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+
+  &:hover,
+  &:focus {
+    border-color: material-color(green, A700);
+  }
+
+  &:disabled {
+    background-color: material-color(blue-grey, 600);
+    border-color: material-color(blue-grey, 600);
+    color: material-color(blue-grey, 800);
+    box-shadow: none;
+  }
+}
+
 .message {
-	position: fixed;
-	width: 100%;
-	z-index: 4;
-	bottom: 0;
-	left: 0;
-	padding: 1rem;
-	box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.8);
+  position: fixed;
+  width: 100%;
+  z-index: 4;
+  bottom: 0;
+  left: 0;
+  background: material-color(blue-grey, 800);
 
-	button {
-		box-shadow: none;
-	}
+  .body {
+    padding: 1rem;
+  }
 
-	&.correct {
-		color: material-color(green, 800);
-		background-color: material-color(green, 300);
+  .correct {
+    color: material-color(green, A200);
+    background-color: rgba(105, 240, 174, 0.2);
 
-		button {
-			border-color: material-color(green, A400);
-			background-color: material-color(green, A200);
+    button {
+      border-color: material-color(green, A400);
+      background-color: material-color(green, A200);
 
+      &:hover,
+      &:focus {
+        border-color: material-color(green, A700);
+      }
+    }
+  }
 
-			&:hover,
-			&:focus {
-				border-color: material-color(green, A700);
-			}
-		}
-	}
+  .incorrect {
+    color: material-color(red, 100);
+    background-color: rgba(255, 82, 82, 0.3);
 
-	&.incorrect {
-		color: material-color(red, 800);
-		background-color: material-color(red, 300);
+    button {
+      border-color: material-color(red, A400);
+      background-color: material-color(red, A200);
 
-		button {
-			border-color: material-color(red, A400);
-			background-color: material-color(red, A200);
-			color: #fff;
+      &:hover,
+      &:focus {
+        border-color: material-color(red, A700);
+      }
+    }
+  }
 
-			&:hover,
-			&:focus {
-				border-color: material-color(red, A700);
-			}
-		}
-	}
+  h2 {
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin: 0 0 1rem;
+  }
 
-	h2 {
-		font-size: 1.5rem;
-		font-weight: 500;
-		margin: 0 0 1rem;
-	}
+  p {
+    margin: 0 0 1rem;
+  }
 
-	.footer-body {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
+  .buttons {
+    display: flex;
+    align-items: center;
 
+    button {
+      flex: 1 0 auto;
+      padding: {
+        top: 0.5rem;
+        bottom: 0.5rem;
+      }
+    }
+  }
+}
+
+.multi {
+  button:first-child {
+    margin-inline-end: 0.25rem;
+  }
+
+  button:last-child {
+    margin-inline-start: 0.25rem;
+  }
 }

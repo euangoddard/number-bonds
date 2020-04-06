@@ -12,4 +12,5 @@ export enum QuestionState {
   Waiting,
   Correct,
   Incorrect,
+  IncorrectReveal,
 }

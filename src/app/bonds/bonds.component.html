@@ -1,4 +1,8 @@
-<div class="bonds">
+<div
+  class="bonds"
+  [class.answer-correct]="state === State.Correct"
+  [class.answer-incorrect]="state === State.Incorrect || state === State.IncorrectReveal"
+>
   <ng-container *ngFor="let bond of bonds.bonds">
     <input
       type="number"
@@ -30,26 +34,34 @@
   />
 </div>
 <button
+  class="button--check"
   type="button"
   [disabled]="answer === null || state !== State.Waiting"
   #check
   (click)="checkAnswer(check)"
 >
-  Check
+  Check answer
 </button>
-<footer
-  class="message"
-  @slideUp
-  *ngIf="state !== State.Waiting"
-  [class.correct]="state === State.Correct"
-  [class.incorrect]="state === State.Incorrect"
->
-  <h2 [ngSwitch]="state">
-    <ng-container *ngSwitchCase="State.Correct">That's right!</ng-container>
-    <ng-container *ngSwitchCase="State.Incorrect">Oops. That's not quite right</ng-container>
-  </h2>
-  <div class="footer-body">
-    <div [innerHTML]="bonds | answer"></div>
-    <button type="button" (click)="done()">Next</button>
+<footer class="message" @slideUp *ngIf="state !== State.Waiting">
+  <div
+    class="body"
+    [class.correct]="state === State.Correct"
+    [class.incorrect]="state === State.Incorrect || state === State.IncorrectReveal"
+  >
+    <h2>
+      <ng-container *ngIf="state === State.Correct; else incorrect">Correct answer!</ng-container>
+      <ng-template #incorrect>Incorrect answer</ng-template>
+    </h2>
+    <p *ngIf="state !== State.Incorrect" [innerHTML]="bonds | answer"></p>
+    <div class="buttons" [ngSwitch]="state" [class.multi]="state === State.Incorrect">
+      <button type="button" (click)="done()" *ngSwitchCase="State.Correct">Next</button>
+      <ng-container *ngSwitchCase="State.Incorrect">
+        <button type="button" (click)="state = State.Waiting">Try again</button>
+        <button type="button" (click)="state = State.IncorrectReveal">Show answer</button>
+      </ng-container>
+      <button type="button" (click)="done()" *ngSwitchCase="State.IncorrectReveal">
+        Try another
+      </button>
+    </div>
   </div>
 </footer>
