@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1586121481237,
+  "timestamp": 1586206626952,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -10,14 +10,14 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main-es2015.e419b3293a517bd5da32.js",
-        "/main-es5.e419b3293a517bd5da32.js",
+        "/main-es2015.12d3bfe3ca96e4eddb75.js",
+        "/main-es5.12d3bfe3ca96e4eddb75.js",
         "/manifest.webmanifest",
         "/polyfills-es2015.bbb42ff2e1c488ff52d5.js",
         "/polyfills-es5.0e4e1968447fab48e788.js",
         "/runtime-es2015.c9afb3256f2870e161de.js",
         "/runtime-es5.c9afb3256f2870e161de.js",
-        "/styles.8d1dbd9099e2886077e8.css"
+        "/styles.ee8548fd3edcb40c33e3.css"
       ],
       "patterns": []
     },
@@ -26,6 +26,11 @@
       "installMode": "lazy",
       "updateMode": "prefetch",
       "urls": [
+        "/assets/backgrounds/moon.svg",
+        "/assets/backgrounds/star-cluster-1.svg",
+        "/assets/backgrounds/star-cluster-2.svg",
+        "/assets/backgrounds/star-cluster-3.svg",
+        "/assets/backgrounds/star-cluster-4.svg",
         "/assets/icons/android-chrome-192x192.png",
         "/assets/icons/android-chrome-512x512.png",
         "/assets/icons/apple-touch-icon.png",
@@ -39,21 +44,26 @@
   ],
   "dataGroups": [],
   "hashTable": {
+    "/assets/backgrounds/moon.svg": "c7749803877efb139d1e70a2a7179545f914aaa8",
+    "/assets/backgrounds/star-cluster-1.svg": "4b473fb341df5806451764990e14940f42553056",
+    "/assets/backgrounds/star-cluster-2.svg": "fd8548164fd66094ea65fe9bd74db81c89461871",
+    "/assets/backgrounds/star-cluster-3.svg": "4088c52bdb4f10940b1e6a75fc84f4d66f9d46e2",
+    "/assets/backgrounds/star-cluster-4.svg": "d64b5961f4abd8479c7adc5c0dc0af8873daadf8",
     "/assets/icons/android-chrome-192x192.png": "5bbf09cd9644df9d261f1eeba2dec82a46b311dd",
     "/assets/icons/android-chrome-512x512.png": "d1b2b752823fd06595dd2d592274a02b9e29a9f5",
     "/assets/icons/apple-touch-icon.png": "50228c6b7657a6a8eff9f5e97806459cf4ab0bfc",
     "/assets/icons/favicon-16x16.png": "9ba46afabdee0d69eeb65db1adc3c1191e0aa39d",
     "/assets/icons/favicon-32x32.png": "32510db694065f9ceb04edbe48c6672ef017da67",
     "/favicon.ico": "31cffb059a8988489a5d2423e280e9cf989c1d6e",
-    "/index.html": "a7098e0a57ad56dd0f4c2667fa4f77ae3051f6d9",
-    "/main-es2015.e419b3293a517bd5da32.js": "c62734ae67f69dcc1f9455945a3def8f130b8d25",
-    "/main-es5.e419b3293a517bd5da32.js": "f3f9e31a8de8eda5c08ebf028e4cfb04f19cf87b",
+    "/index.html": "45f97c44010ea331c1177d8625e5257b6976591e",
+    "/main-es2015.12d3bfe3ca96e4eddb75.js": "2eca039a465ec7523b2790fca30c9c6da2c688f4",
+    "/main-es5.12d3bfe3ca96e4eddb75.js": "f177802615a4bb7b73735b3297a44527dc31a836",
     "/manifest.webmanifest": "71abd068b87651b7319f13f90f1d1564876cb8ad",
     "/polyfills-es2015.bbb42ff2e1c488ff52d5.js": "72ad4ccc0a3916ae4598199447cdeadd6d380570",
     "/polyfills-es5.0e4e1968447fab48e788.js": "e51a1de4f016cd689dbdbef51043dec9518c4111",
     "/runtime-es2015.c9afb3256f2870e161de.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
     "/runtime-es5.c9afb3256f2870e161de.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
-    "/styles.8d1dbd9099e2886077e8.css": "9b07d70637ad04e06b29c57a6c05149db871bac1"
+    "/styles.ee8548fd3edcb40c33e3.css": "a5ad57d53eceeecc35a79e470f3680b70cf2eef6"
   },
   "navigationUrls": [
     {
