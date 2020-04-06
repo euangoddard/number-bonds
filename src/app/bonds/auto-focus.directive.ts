@@ -20,6 +20,7 @@ export class AutoFocusDirective implements AfterViewInit {
     if (this.shouldFocus) {
       setTimeout(() => {
         this.inputElement.focus();
+        this.inputElement.select();
       }, 50);
     }
   }

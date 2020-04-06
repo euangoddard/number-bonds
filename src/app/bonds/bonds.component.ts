@@ -38,8 +38,12 @@ import { NumberBonds, QuestionState } from 'src/app/models';
 export class BondsComponent implements OnChanges {
   @Input() bonds: NumberBonds;
   @Output() next = new EventEmitter<QuestionState>();
-
+  readonly State = QuestionState;
+  state: QuestionState = QuestionState.Waiting;
+  answer: number | null = null;
   @ViewChildren(AutoFocusDirective) private focusDirectives: QueryList<AutoFocusDirective>;
+
+  constructor(private readonly confetti: ConfettiService, private zone: NgZone) {}
 
   @HostBinding('class')
   get hostClass(): string {
@@ -50,24 +54,13 @@ export class BondsComponent implements OnChanges {
     }
   }
 
-  readonly State = QuestionState;
-  state: QuestionState = QuestionState.Waiting;
-
-  answer: number | null = null;
-
-  constructor(private readonly confetti: ConfettiService, private zone: NgZone) {}
-
   ngOnChanges(changes: SimpleChanges): void {
     const bondsChange = changes['bonds'];
     if (bondsChange && bondsChange.currentValue) {
       this.state = QuestionState.Waiting;
       this.answer = null;
       if (!bondsChange.firstChange) {
-        this.zone.onStable.pipe(take(1)).subscribe(() => {
-          this.focusDirectives.forEach((directive) => {
-            directive.refocus();
-          });
-        });
+        this.focusActiveInput();
       }
     }
   }
@@ -99,5 +92,18 @@ export class BondsComponent implements OnChanges {
 
   done(): void {
     this.next.next(this.state);
+  }
+
+  tryAgain(): void {
+    this.state = QuestionState.Waiting;
+    this.focusActiveInput();
+  }
+
+  private focusActiveInput(): void {
+    this.zone.onStable.pipe(take(1)).subscribe(() => {
+      this.focusDirectives.forEach((directive) => {
+        directive.refocus();
+      });
+    });
   }
 }
