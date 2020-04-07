@@ -57,10 +57,12 @@
       <button type="button" (click)="done()" *ngSwitchCase="State.Correct">Next</button>
       <ng-container *ngSwitchCase="State.Incorrect">
         <button type="button" (click)="tryAgain()">Try again</button>
-        <button type="button" (click)="state = State.IncorrectReveal">Show answer</button>
+        <button type="button" (click)="state = State.IncorrectReveal" class="secondary">
+          Show answer
+        </button>
       </ng-container>
       <button type="button" (click)="done()" *ngSwitchCase="State.IncorrectReveal">
-        Try another
+        Next
       </button>
     </div>
   </div>

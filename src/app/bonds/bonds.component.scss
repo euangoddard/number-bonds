@@ -172,6 +172,10 @@ input[type='number'] {
     padding: 1rem;
   }
 
+  button {
+    border: 2px solid;
+  }
+
   .correct {
     color: material-color(green, A200);
     background-color: rgba(105, 240, 174, 0.2);
@@ -194,6 +198,12 @@ input[type='number'] {
     button {
       border-color: material-color(red, A400);
       background-color: material-color(red, A200);
+
+      &.secondary {
+        color: material-color(red, A200);
+        border-color: material-color(red, A200);
+        background: transparent;
+      }
 
       &:hover,
       &:focus {
@@ -218,7 +228,7 @@ input[type='number'] {
     align-items: center;
 
     button {
-      flex: 1 0 auto;
+      flex: 1 0 48%;
       padding: {
         top: 0.5rem;
         bottom: 0.5rem;
