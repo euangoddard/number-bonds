@@ -3,7 +3,7 @@
 
     /**
      * @license
-     * Copyright Google Inc. All Rights Reserved.
+     * Copyright Google LLC All Rights Reserved.
      *
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
@@ -30,19 +30,27 @@
         /**
          * Wrapper around the `Response` constructor.
          */
-        newResponse(body, init) { return new Response(body, init); }
+        newResponse(body, init) {
+            return new Response(body, init);
+        }
         /**
          * Wrapper around the `Headers` constructor.
          */
-        newHeaders(headers) { return new Headers(headers); }
+        newHeaders(headers) {
+            return new Headers(headers);
+        }
         /**
          * Test if a given object is an instance of `Client`.
          */
-        isClient(source) { return (source instanceof Client); }
+        isClient(source) {
+            return (source instanceof Client);
+        }
         /**
          * Read the current UNIX time in milliseconds.
          */
-        get time() { return Date.now(); }
+        get time() {
+            return Date.now();
+        }
         /**
          * Extract the pathname of a URL.
          */
@@ -56,13 +64,15 @@
          * Wait for a given amount of time before completing a Promise.
          */
         timeout(ms) {
-            return new Promise(resolve => { setTimeout(() => resolve(), ms); });
+            return new Promise(resolve => {
+                setTimeout(() => resolve(), ms);
+            });
         }
     }
 
     /**
      * @license
-     * Copyright Google Inc. All Rights Reserved.
+     * Copyright Google LLC All Rights Reserved.
      *
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
@@ -79,7 +89,7 @@
 
     /**
      * @license
-     * Copyright Google Inc. All Rights Reserved.
+     * Copyright Google LLC All Rights Reserved.
      *
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
@@ -103,10 +113,10 @@
         list() {
             return this.scope.caches.keys().then(keys => keys.filter(key => key.startsWith(`${this.adapter.cacheNamePrefix}:db:`)));
         }
-        open(name) {
+        open(name, cacheQueryOptions) {
             if (!this.tables.has(name)) {
                 const table = this.scope.caches.open(`${this.adapter.cacheNamePrefix}:db:${name}`)
-                    .then(cache => new CacheTable(name, cache, this.adapter));
+                    .then(cache => new CacheTable(name, cache, this.adapter, cacheQueryOptions));
                 this.tables.set(name, table);
             }
             return this.tables.get(name);
@@ -116,18 +126,23 @@
      * A `Table` backed by a `Cache`.
      */
     class CacheTable {
-        constructor(table, cache, adapter) {
+        constructor(table, cache, adapter, cacheQueryOptions) {
             this.table = table;
             this.cache = cache;
             this.adapter = adapter;
+            this.cacheQueryOptions = cacheQueryOptions;
         }
-        request(key) { return this.adapter.newRequest('/' + key); }
-        'delete'(key) { return this.cache.delete(this.request(key)); }
+        request(key) {
+            return this.adapter.newRequest('/' + key);
+        }
+        'delete'(key) {
+            return this.cache.delete(this.request(key), this.cacheQueryOptions);
+        }
         keys() {
             return this.cache.keys().then(requests => requests.map(req => req.url.substr(1)));
         }
         read(key) {
-            return this.cache.match(this.request(key)).then(res => {
+            return this.cache.match(this.request(key), this.cacheQueryOptions).then(res => {
                 if (res === undefined) {
                     return Promise.reject(new NotFound(this.table, key));
                 }
@@ -140,18 +155,18 @@
     }
 
     /*! *****************************************************************************
-    Copyright (c) Microsoft Corporation. All rights reserved.
-    Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-    this file except in compliance with the License. You may obtain a copy of the
-    License at http://www.apache.org/licenses/LICENSE-2.0
+    Copyright (c) Microsoft Corporation.
 
-    THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-    WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-    MERCHANTABLITY OR NON-INFRINGEMENT.
+    Permission to use, copy, modify, and/or distribute this software for any
+    purpose with or without fee is hereby granted.
 
-    See the Apache Version 2.0 License for specific language governing permissions
-    and limitations under the License.
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+    REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+    AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+    INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+    LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+    OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+    PERFORMANCE OF THIS SOFTWARE.
     ***************************************************************************** */
 
     function __awaiter(thisArg, _arguments, P, generator) {
@@ -166,7 +181,7 @@
 
     /**
      * @license
-     * Copyright Google Inc. All Rights Reserved.
+     * Copyright Google LLC All Rights Reserved.
      *
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
@@ -180,7 +195,7 @@
 
     /**
      * @license
-     * Copyright Google Inc. All Rights Reserved.
+     * Copyright Google LLC All Rights Reserved.
      *
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
@@ -202,7 +217,7 @@
 
     /**
      * @license
-     * Copyright Google Inc. All Rights Reserved.
+     * Copyright Google LLC All Rights Reserved.
      *
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
@@ -337,7 +352,7 @@
 
     /**
      * @license
-     * Copyright Google Inc. All Rights Reserved.
+     * Copyright Google LLC All Rights Reserved.
      *
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
@@ -374,7 +389,8 @@
             this.cache = this.scope.caches.open(`${this.prefix}:${this.config.name}:cache`);
             // This is the metadata table, which holds specific information for each cached URL, such as
             // the timestamp of when it was added to the cache.
-            this.metadata = this.db.open(`${this.prefix}:${this.config.name}:meta`);
+            this.metadata =
+                this.db.open(`${this.prefix}:${this.config.name}:meta`, this.config.cacheQueryOptions);
             // Determine the origin from the registration scope. This is used to differentiate between
             // relative and absolute URLs.
             this.origin = this.adapter.parseUrl(this.scope.registration.scope).origin;
@@ -383,7 +399,7 @@
             return __awaiter(this, void 0, void 0, function* () {
                 const cache = yield this.cache;
                 const meta = yield this.metadata;
-                const res = yield cache.match(this.adapter.newRequest(url));
+                const res = yield cache.match(this.adapter.newRequest(url), this.config.cacheQueryOptions);
                 if (res === undefined) {
                     return UpdateCacheStatus.NOT_CACHED;
                 }
@@ -424,7 +440,7 @@
                     const cache = yield this.cache;
                     // Look for a cached response. If one exists, it can be used to resolve the fetch
                     // operation.
-                    const cachedResponse = yield cache.match(req);
+                    const cachedResponse = yield cache.match(req, this.config.cacheQueryOptions);
                     if (cachedResponse !== undefined) {
                         // A response has already been cached (which presumably matches the hash for this
                         // resource). Check whether it's safe to serve this resource from cache.
@@ -437,7 +453,9 @@
                             // This resource has no hash, and yet exists in the cache. Check how old this request is
                             // to make sure it's still usable.
                             if (yield this.needToRevalidate(req, cachedResponse)) {
-                                this.idle.schedule(`revalidate(${this.prefix}, ${this.config.name}): ${req.url}`, () => __awaiter(this, void 0, void 0, function* () { yield this.fetchAndCacheOnce(req); }));
+                                this.idle.schedule(`revalidate(${this.prefix}, ${this.config.name}): ${req.url}`, () => __awaiter(this, void 0, void 0, function* () {
+                                    yield this.fetchAndCacheOnce(req);
+                                }));
                             }
                             // In either case (revalidation or not), the cached response must be good.
                             return cachedResponse;
@@ -555,7 +573,7 @@
                 const cache = yield this.cache;
                 const metaTable = yield this.metadata;
                 // Lookup the response in the cache.
-                const response = yield cache.match(this.adapter.newRequest(url));
+                const response = yield cache.match(this.adapter.newRequest(url), this.config.cacheQueryOptions);
                 if (response === undefined) {
                     // It's not found, return null.
                     return null;
@@ -793,7 +811,7 @@
                     // Construct the Request for this url.
                     const req = this.adapter.newRequest(url);
                     // First, check the cache to see if there is already a copy of this resource.
-                    const alreadyCached = (yield cache.match(req)) !== undefined;
+                    const alreadyCached = (yield cache.match(req, this.config.cacheQueryOptions)) !== undefined;
                     // If the resource is in the cache already, it can be skipped.
                     if (alreadyCached) {
                         return;
@@ -822,7 +840,7 @@
                         const req = this.adapter.newRequest(url);
                         // It's possible that the resource in question is already cached. If so,
                         // continue to the next one.
-                        const alreadyCached = ((yield cache.match(req)) !== undefined);
+                        const alreadyCached = ((yield cache.match(req, this.config.cacheQueryOptions)) !== undefined);
                         if (alreadyCached) {
                             return;
                         }
@@ -858,7 +876,7 @@
                     // Construct the Request for this url.
                     const req = this.adapter.newRequest(url);
                     // First, check the cache to see if there is already a copy of this resource.
-                    const alreadyCached = (yield cache.match(req)) !== undefined;
+                    const alreadyCached = (yield cache.match(req, this.config.cacheQueryOptions)) !== undefined;
                     // If the resource is in the cache already, it can be skipped.
                     if (alreadyCached) {
                         return;
@@ -886,7 +904,7 @@
 
     /**
      * @license
-     * Copyright Google Inc. All Rights Reserved.
+     * Copyright Google LLC All Rights Reserved.
      *
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
@@ -910,7 +928,9 @@
         /**
          * The current count of URLs in the list.
          */
-        get size() { return this.state.count; }
+        get size() {
+            return this.state.count;
+        }
         /**
          * Remove the tail.
          */
@@ -1031,8 +1051,8 @@
             this._lru = null;
             this.patterns = this.config.patterns.map(pattern => new RegExp(pattern));
             this.cache = this.scope.caches.open(`${this.prefix}:dynamic:${this.config.name}:cache`);
-            this.lruTable = this.db.open(`${this.prefix}:dynamic:${this.config.name}:lru`);
-            this.ageTable = this.db.open(`${this.prefix}:dynamic:${this.config.name}:age`);
+            this.lruTable = this.db.open(`${this.prefix}:dynamic:${this.config.name}:lru`, this.config.cacheQueryOptions);
+            this.ageTable = this.db.open(`${this.prefix}:dynamic:${this.config.name}:age`, this.config.cacheQueryOptions);
         }
         /**
          * Lazily initialize/load the LRU chain.
@@ -1242,7 +1262,7 @@
             return __awaiter(this, void 0, void 0, function* () {
                 // Look for a response in the cache. If one exists, return it.
                 const cache = yield this.cache;
-                let res = yield cache.match(req);
+                let res = yield cache.match(req, this.config.cacheQueryOptions);
                 if (res !== undefined) {
                     // A response was found in the cache, but its age is not yet known. Look it up.
                     try {
@@ -1328,8 +1348,8 @@
             return __awaiter(this, void 0, void 0, function* () {
                 const [cache, ageTable] = yield Promise.all([this.cache, this.ageTable]);
                 yield Promise.all([
-                    cache.delete(this.adapter.newRequest(url, { method: 'GET' })),
-                    cache.delete(this.adapter.newRequest(url, { method: 'HEAD' })),
+                    cache.delete(this.adapter.newRequest(url, { method: 'GET' }), this.config.cacheQueryOptions),
+                    cache.delete(this.adapter.newRequest(url, { method: 'HEAD' }), this.config.cacheQueryOptions),
                     ageTable.delete(url),
                 ]);
             });
@@ -1351,7 +1371,7 @@
 
     /**
      * @license
-     * Copyright Google Inc. All Rights Reserved.
+     * Copyright Google LLC All Rights Reserved.
      *
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
@@ -1420,7 +1440,9 @@
                 exclude: excludeUrls.map(spec => new RegExp(spec.regex)),
             };
         }
-        get okay() { return this._okay; }
+        get okay() {
+            return this._okay;
+        }
         /**
          * Fully initialize this version of the application. If this Promise resolves successfully, all
          * required
@@ -1582,7 +1604,9 @@
         /**
          * Get the opaque application data which was provided with the manifest.
          */
-        get appData() { return this.manifest.appData || null; }
+        get appData() {
+            return this.manifest.appData || null;
+        }
         /**
          * Check whether a request accepts `text/html` (based on the `Accept` header).
          */
@@ -1598,7 +1622,7 @@
 
     /**
      * @license
-     * Copyright Google Inc. All Rights Reserved.
+     * Copyright Google LLC All Rights Reserved.
      *
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
@@ -1680,7 +1704,9 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
             // Log the message.
             this.debugLogA.push({ value, time: this.adapter.time, context });
         }
-        errorToString(err) { return `${err.name}(${err.message}, ${err.stack})`; }
+        errorToString(err) {
+            return `${err.name}(${err.message}, ${err.stack})`;
+        }
         formatDebugLog(log) {
             return log.map(entry => `[${this.since(entry.time)}] ${entry.value} ${entry.context}`)
                 .join('\n');
@@ -1689,7 +1715,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
 
     /**
      * @license
-     * Copyright Google Inc. All Rights Reserved.
+     * Copyright Google LLC All Rights Reserved.
      *
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
@@ -1753,16 +1779,22 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
         schedule(desc, run) {
             this.queue.push({ desc, run });
             if (this.emptyResolve === null) {
-                this.empty = new Promise(resolve => { this.emptyResolve = resolve; });
+                this.empty = new Promise(resolve => {
+                    this.emptyResolve = resolve;
+                });
             }
         }
-        get size() { return this.queue.length; }
-        get taskDescriptions() { return this.queue.map(task => task.desc); }
+        get size() {
+            return this.queue.length;
+        }
+        get taskDescriptions() {
+            return this.queue.map(task => task.desc);
+        }
     }
 
     /**
      * @license
-     * Copyright Google Inc. All Rights Reserved.
+     * Copyright Google LLC All Rights Reserved.
      *
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
@@ -1773,7 +1805,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
 
     /**
      * @license
-     * Copyright Google Inc. All Rights Reserved.
+     * Copyright Google LLC All Rights Reserved.
      *
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
@@ -1787,7 +1819,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
 
     /**
      * @license
-     * Copyright Google Inc. All Rights Reserved.
+     * Copyright Google LLC All Rights Reserved.
      *
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
@@ -2034,7 +2066,9 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
         handleMessage(msg, from) {
             return __awaiter(this, void 0, void 0, function* () {
                 if (isMsgCheckForUpdates(msg)) {
-                    const action = (() => __awaiter(this, void 0, void 0, function* () { yield this.checkForUpdate(); }))();
+                    const action = (() => __awaiter(this, void 0, void 0, function* () {
+                        yield this.checkForUpdate();
+                    }))();
                     yield this.reportStatus(from, action, msg.statusNonce);
                 }
                 else if (isMsgActivateUpdate(msg)) {
@@ -2197,6 +2231,12 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
                         table.read('assignments'),
                         table.read('latest'),
                     ]);
+                    // Make sure latest manifest is correctly installed. If not (e.g. corrupted data),
+                    // it could stay locked in EXISTING_CLIENTS_ONLY or SAFE_MODE state.
+                    if (!this.versions.has(latest.latest) && !manifests.hasOwnProperty(latest.latest)) {
+                        this.debugger.log(`Missing manifest for latest version hash ${latest.latest}`, 'initialize: read from DB');
+                        throw new Error(`Missing manifest for latest hash ${latest.latest}`);
+                    }
                     // Successfully loaded from saved state. This implies a manifest exists, so
                     // the update check needs to happen in the background.
                     this.idle.schedule('init post-load (update, cleanup)', () => __awaiter(this, void 0, void 0, function* () {
@@ -2522,10 +2562,14 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
                 const table = yield this.db.open('control');
                 // Construct a serializable map of hashes to manifests.
                 const manifests = {};
-                this.versions.forEach((version, hash) => { manifests[hash] = version.manifest; });
+                this.versions.forEach((version, hash) => {
+                    manifests[hash] = version.manifest;
+                });
                 // Construct a serializable map of client ids to version hashes.
                 const assignments = {};
-                this.clientVersionMap.forEach((hash, clientId) => { assignments[clientId] = hash; });
+                this.clientVersionMap.forEach((hash, clientId) => {
+                    assignments[clientId] = hash;
+                });
                 // Record the latest entry. Since this is a sync which is necessarily happening after
                 // initialization, latestHash should always be valid.
                 const latest = {
@@ -2675,7 +2719,9 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
         broadcast(msg) {
             return __awaiter(this, void 0, void 0, function* () {
                 const clients = yield this.scope.clients.matchAll();
-                clients.forEach(client => { client.postMessage(msg); });
+                clients.forEach(client => {
+                    client.postMessage(msg);
+                });
             });
         }
         debugState() {
@@ -2698,7 +2744,8 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
                         .map(([clientId, version]) => clientId);
                     return {
                         hash,
-                        manifest: version.manifest, clients,
+                        manifest: version.manifest,
+                        clients,
                         status: '',
                     };
                 });
@@ -2731,7 +2778,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
 
     /**
      * @license
-     * Copyright Google Inc. All Rights Reserved.
+     * Copyright Google LLC All Rights Reserved.
      *
      * Use of this source code is governed by an MIT-style license that can be
      * found in the LICENSE file at https://angular.io/license
