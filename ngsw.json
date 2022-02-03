@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1593290119608,
+  "timestamp": 1643918596388,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -13,14 +13,11 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main-es2015.b35f8d86321cda108463.js",
-        "/main-es5.b35f8d86321cda108463.js",
+        "/main.d06b1e33fd6c96a5.js",
         "/manifest.webmanifest",
-        "/polyfills-es2015.95bb65e853d2781ac3bd.js",
-        "/polyfills-es5.341d48ffc88eaeae911d.js",
-        "/runtime-es2015.409e6590615fb48d139f.js",
-        "/runtime-es5.409e6590615fb48d139f.js",
-        "/styles.ee8548fd3edcb40c33e3.css"
+        "/polyfills.719477dedd689250.js",
+        "/runtime.d057678908d4158e.js",
+        "/styles.e99014003ff5b859.css"
       ],
       "patterns": []
     },
@@ -61,15 +58,12 @@
     "/assets/icons/favicon-16x16.png": "9ba46afabdee0d69eeb65db1adc3c1191e0aa39d",
     "/assets/icons/favicon-32x32.png": "32510db694065f9ceb04edbe48c6672ef017da67",
     "/favicon.ico": "31cffb059a8988489a5d2423e280e9cf989c1d6e",
-    "/index.html": "ecb6d59d9dfbaec6e25e8a3678fb488bccaa4389",
-    "/main-es2015.b35f8d86321cda108463.js": "1575c1aa2c8e6d6e0317b068bcde3e058713ae39",
-    "/main-es5.b35f8d86321cda108463.js": "472cea2a1108fdec24613599585ebc5f6754c4a4",
+    "/index.html": "f29adfb73f6c50212ede6c6b390afb69425bcc55",
+    "/main.d06b1e33fd6c96a5.js": "27a74fcaae7b3a2790d6b7dc20e48c6114d74665",
     "/manifest.webmanifest": "ae5444edca815f1ce856e32889f9bd5207ae50bb",
-    "/polyfills-es2015.95bb65e853d2781ac3bd.js": "72ad4ccc0a3916ae4598199447cdeadd6d380570",
-    "/polyfills-es5.341d48ffc88eaeae911d.js": "8aa26ea87b9958c6bd13b7c257c0e9940438e684",
-    "/runtime-es2015.409e6590615fb48d139f.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
-    "/runtime-es5.409e6590615fb48d139f.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
-    "/styles.ee8548fd3edcb40c33e3.css": "a5ad57d53eceeecc35a79e470f3680b70cf2eef6"
+    "/polyfills.719477dedd689250.js": "d87cf246c859ef43cceff6563a9d086122717b31",
+    "/runtime.d057678908d4158e.js": "3ec2f2cd72497334bc81ea3f898a664ebb0f98d4",
+    "/styles.e99014003ff5b859.css": "5b46cd397fb61374332ac74ea0a5897383e12fbf"
   },
   "navigationUrls": [
     {
@@ -88,5 +82,6 @@
       "positive": false,
       "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
     }
-  ]
+  ],
+  "navigationRequestStrategy": "performance"
 }
