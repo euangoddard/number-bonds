@@ -11,10 +11,10 @@ import { NumberBonds } from 'src/app/models';
 export class ControlsComponent implements OnInit {
   @Output() bonds = new EventEmitter<NumberBonds>();
 
-  readonly maxChoices = range(20, 210, 20);
+  readonly maxChoices = [10, ...range(20, 210, 20)] as const;
   readonly bondCountChoices = range(2, 7);
   readonly formGroup = this.formBuilder.group({
-    max: [20, [Validators.required]],
+    max: [10, [Validators.required]],
     bonds: [2, [Validators.required]],
   });
 
