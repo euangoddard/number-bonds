@@ -13,7 +13,7 @@ header {
 
   &::after {
     position: absolute;
-    top: calc(100% - #{$curve-height/2});
+    top: calc(100% - #{$curve-height*0.5});
     left: 0;
     background: material-color(blue-grey, 900);
     content: '';
