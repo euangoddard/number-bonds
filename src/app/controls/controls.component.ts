@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { random, range } from 'lodash-es';
 import { NumberBonds } from 'src/app/models';
 
@@ -18,7 +18,7 @@ export class ControlsComponent implements OnInit {
     bonds: [2, [Validators.required]],
   });
 
-  constructor(private readonly formBuilder: FormBuilder) {}
+  constructor(private readonly formBuilder: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.emitChoices();
